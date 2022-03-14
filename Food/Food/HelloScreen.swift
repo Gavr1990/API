@@ -161,10 +161,37 @@ class HelloScreen: UIViewController {
                 self.mainButton.alpha = 1
             }}
         
+        gallaryCollectionView.alpha = 0
+        
+        foodLabel = UILabel()
+        foodLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        foodLabel.text = "Homefood"
+        foodLabel.alpha = 0
+        foodLabel.textAlignment = .left
+        foodLabel.textColor = .black
+        foodLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        deliveryLabel = UILabel()
+        deliveryLabel.font = UIFont.systemFont(ofSize: 25, weight: .light)
+        deliveryLabel.text = "Delivery"
+        deliveryLabel.alpha = 0
+        deliveryLabel.textAlignment = .left
+        deliveryLabel.textColor = .black
+        deliveryLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        buyImage = UIImageView(image: .init(named: "basket.png"))
+        buyImage.alpha = 0
+        buyImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        menuImage = UIImageView(image: .init(named: "menu.png"))
+        menuImage.alpha = 0
+        menuImage.translatesAutoresizingMaskIntoConstraints = false
     }
         
     override func viewDidLayoutSubviews() {
-        
+        /*
+         Here were supposed to be the constraints, but because I decided to do everything in one window, they were moved
+         */
     }
     
     @objc func mainButtonAction() {
@@ -173,6 +200,66 @@ class HelloScreen: UIViewController {
             self.mainButton.center.x -= 50
             self.mainLabel.alpha = 0
             self.mainButton.alpha = 0
+        }
+        completion: { _ in
+            NSLayoutConstraint.deactivate([
+                self.secondView.topAnchor.constraint(equalTo: self.view.topAnchor),
+                self.secondView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                self.secondView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                self.secondView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+                
+                self.mainLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                self.mainLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+
+                self.mainButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                self.mainButton.topAnchor.constraint(equalTo: self.mainLabel.bottomAnchor, constant: 50),
+                self.mainButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: UIScreen.main.bounds.width/3.5),
+                self.mainButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -UIScreen.main.bounds.width/3.5),
+                
+            ])
+            self.mainLabel = nil
+            self.mainButton = nil
+            self.firstBackgroundImage = nil
+            self.images = nil
+            UIView.animate(withDuration: 2, delay: 0, options: [.curveEaseInOut]) {
+                self.secondView.backgroundColor = .init(red: 140, green: 140, blue: 140, alpha: 1)
+                self.secondView.alpha = 1
+            } completion: { _ in
+                self.secondView.addSubview(self.menuImage)
+                self.secondView.addSubview(self.foodLabel)
+                self.secondView.addSubview(self.deliveryLabel)
+                self.secondView.addSubview(self.buyImage)
+                self.secondView.addSubview(self.gallaryCollectionView)
+                
+                self.gallaryCollectionView.alpha = 1
+                self.deliveryLabel.alpha = 1
+                self.foodLabel.alpha = 1
+                self.menuImage.alpha = 1
+                self.buyImage.alpha = 1
+                
+                self.gallaryCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+                self.gallaryCollectionView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+                self.gallaryCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+                self.gallaryCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+                self.gallaryCollectionView.heightAnchor.constraint(equalToConstant: 350).isActive = true
+                
+                self.menuImage.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 35).isActive = true
+                self.menuImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 35).isActive = true
+                self.menuImage.heightAnchor.constraint(equalToConstant: 35).isActive = true
+                self.menuImage.widthAnchor.constraint(equalToConstant: 35).isActive = true
+                    
+                self.buyImage.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 35).isActive = true
+                self.buyImage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -35).isActive = true
+                self.buyImage.heightAnchor.constraint(equalToConstant: 35).isActive = true
+                self.buyImage.widthAnchor.constraint(equalToConstant: 35).isActive = true
+                   
+                self.foodLabel.topAnchor.constraint(equalTo: self.buyImage.bottomAnchor, constant: 10).isActive = true
+                self.foodLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40).isActive = true
+                
+                self.deliveryLabel.topAnchor.constraint(equalTo: self.foodLabel.bottomAnchor, constant: 10).isActive = true
+                self.deliveryLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40).isActive = true
+                    
+            }
         }
     }
     
