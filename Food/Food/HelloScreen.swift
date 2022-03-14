@@ -100,7 +100,7 @@ class HelloScreen: UIViewController {
 
         firstBackgroundImage = UIImageView(image: images[0])
         firstBackgroundImage.alpha = 1
-        firstBackgroundImage.frame = CGRect(x: -400, y: -400, width: images[0]!.size.width, height: images[0]!.size.height)
+        firstBackgroundImage.frame = CGRect(x: -400, y: -300, width: images[0]!.size.width, height: images[0]!.size.height)
         view.addSubview(firstBackgroundImage)
 
                 
