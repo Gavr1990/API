@@ -17,7 +17,7 @@ class GallaryCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
     }
     */
     
-//    var cells = [Food]()
+    var cells = [Food]()
     let names = ["Yummy", "Yum-yum", "Delicious", "Tasty", "Hot!", "Look's good", "Beautiful", "Good thing", "Yum", "Lovely"]
     
     init() {
@@ -37,18 +37,18 @@ class GallaryCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         showsVerticalScrollIndicator = false
     }
     
-//    func set(cells: [Food]) {
-//        self.cells = cells
-//    }
+    func set(cells: [Food]) {
+        self.cells = cells
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-//        return cells.count
+//        return
+        return cells.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = dequeueReusableCell(withReuseIdentifier: GallaryCollectionViewCell.reuseId, for: indexPath) as! GallaryCollectionViewCell
-//        cell.mainImageView.downloadedFrom(link: cells[indexPath.row].image)
+        cell.mainImageView.downloadedFrom(link: cells[indexPath.row].image)
         cell.nameLabel.text = names.randomElement()
         cell.smallDescriptionLabel.text = names.randomElement()
         cell.costLabel.text = "$\(Int.random(in: 10..<20))"

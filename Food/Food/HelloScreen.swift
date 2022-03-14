@@ -8,6 +8,20 @@
 import UIKit
 import SwiftUI
 
+struct Food: Decodable {
+    var image: String!
+
+    init(json: [String: Any]) {
+        image = json["image"] as? String ?? ""
+    }
+    
+    init(jsonString: String) {
+        image = jsonString
+    }
+}
+
+
+
 class HelloScreen: UIViewController {
 
     private var images: [UIImage?]!
@@ -29,9 +43,40 @@ class HelloScreen: UIViewController {
     private var thirdImage: UIImage!
     private var fourthImage: UIImage!
     
+    private var foods = [Food]()
+    private var links = [String]()
+
+    private var gallaryCollectionView = GallaryCollectionView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        URLSession.shared.dataTask(with: url) { data, response, error in
+//            if let response = response {
+//                print(response)
+//            }
+//            guard let data = data else { return }
+//            print(data)
+////            let dataAsString = String(data: data, encoding: .utf8)
+//            do {
+//                guard let json = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers]) as? [String: Any] else { return }
+//                print(json)
+//                self.foods = Food(json: json)
+//            } catch {
+//                print(error)
+//            }
+//        }.resume()
+        
         setupView()
+        downloadUrls() { json in
+            print(json)
+            for link in json {
+                self.links.append(link as! String)
+                self.foods.append(Food(jsonString: link as! String))
+            }
+            self.gallaryCollectionView.set(cells: self.foods)
+        }
     }
 
     private func setupView() {
@@ -131,6 +176,45 @@ class HelloScreen: UIViewController {
         }
     }
     
+    func downloadUrls(completion: @escaping ([Any]) -> Void) {
+        guard let url = URL(string: "https://foodish-api.herokuapp.com/api/") else { return }
+        let urls: [URL] = .init(repeating: url, count: 16)
+        
+        var subjectCollection: [Any] = []
+        let urlDownloadQueue = DispatchQueue(label: "com.urlDownloader.urlqueue")
+        let urlDownloadGroup = DispatchGroup()
+        
+        urls.forEach { (url) in
+            urlDownloadGroup.enter()
+            
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let response = response {
+                    print(response)
+                }
+                guard let data = data else { return }
+//                print(data)
+                do {
+                    guard let json = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers]) as? [String: String] else {
+                            urlDownloadQueue.async {
+                                urlDownloadGroup.leave()
+                            }
+                            return
+                    }
+//                    print(json)
+                    urlDownloadQueue.async {
+                        subjectCollection.append(json["image"]!)
+                        urlDownloadGroup.leave()
+                    }
+                } catch {
+                    print(error)
+                }
+            }.resume()
+        }
+
+        urlDownloadGroup.notify(queue: DispatchQueue.global()) {
+            completion(subjectCollection)
+        }
+    }
 //
     /*
      This code is my attempt to animate the background image
