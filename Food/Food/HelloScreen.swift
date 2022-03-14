@@ -11,6 +11,8 @@ import SwiftUI
 class HelloScreen: UIViewController {
 
     private var images: [UIImage?]!
+    private var firstBackgroundImage: UIImageView!
+    private var secondBackgroundImage: UIImageView!
     private var secondView: UIView!
     private var mainButton: UIButton!
     private var mainLabel: UILabel!
@@ -19,7 +21,14 @@ class HelloScreen: UIViewController {
     private var buyImage: UIImageView!
     private var foodLabel: UILabel!
     private var deliveryLabel: UILabel!
-        
+
+//    private var myTimer: Timer!
+    
+    private var firstImage: UIImage!
+    private var secondImage: UIImage!
+    private var thirdImage: UIImage!
+    private var fourthImage: UIImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -29,6 +38,26 @@ class HelloScreen: UIViewController {
         
         images = [UIImage]()
         images.append(UIImage(named: "IMG_8864.jpg") ?? nil)
+
+        /*
+         I commented out the code here because the plan was to make a smooth moving background and changing photos there
+         */
+//        images.append(UIImage(named: "IMG_8863.jpg") ?? nil)
+//        images.append(UIImage(named: "IMG_8865.jpg") ?? nil)
+//        images.append(UIImage(named: "IMG_8866.jpg") ?? nil)
+        
+//        timer = Timer.scheduledTimer(timeInterval: 16.0, target: self, selector: #selector(refresh), userInfo: nil, repeats: true)
+
+//        secondBackgroundImage = UIImageView(image: images[1])
+//        secondBackgroundImage.alpha = 0
+//        secondBackgroundImage.frame = CGRect(x: -800, y: -800, width: images[1]!.size.width, height: images[1]!.size.height)
+//        view.addSubview(secondBackgroundImage)
+
+        firstBackgroundImage = UIImageView(image: images[0])
+        firstBackgroundImage.alpha = 1
+        firstBackgroundImage.frame = CGRect(x: -400, y: -400, width: images[0]!.size.width, height: images[0]!.size.height)
+        view.addSubview(firstBackgroundImage)
+
                 
         secondView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         secondView.backgroundColor = .black
@@ -102,4 +131,56 @@ class HelloScreen: UIViewController {
         }
     }
     
+//
+    /*
+     This code is my attempt to animate the background image
+     */
+    
+//    @objc func refresh() {
+//        firstBackgroundImage = UIImageView(image: images[0])
+//        secondBackgroundImage = UIImageView(image: images[1])
+//        firstBackgroundImage.frame = CGRect(x: -400, y: -400, width: images[0]!.size.width, height: images[0]!.size.height)
+//        secondBackgroundImage.frame = CGRect(x: -800, y: -800, width: images[1]!.size.width, height: images[1]!.size.height)
+//        UIView.animate(withDuration: 8, delay: 0, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.center.x -= 100
+//            self.firstBackgroundImage.center.y -= 100
+//            self.secondBackgroundImage.center.x += 100
+//            self.secondBackgroundImage.center.y += 100
+//        }
+//        UIView.animate(withDuration: 1, delay: 4, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.alpha = 0
+//            self.secondBackgroundImage.alpha = 1
+//        } completion: { _ in
+//            self.firstBackgroundImage = UIImageView(image: self.images[2])
+//            self.firstBackgroundImage.frame = CGRect(x: -400, y: -400, width: self.images[2]!.size.width, height: self.images[2]!.size.height)
+//        }
+//        UIView.animate(withDuration: 1, delay: 4, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.alpha = 1
+//            self.secondBackgroundImage.alpha = 0
+//        } completion: { _ in
+//            self.secondBackgroundImage = UIImageView(image: self.images[3])
+//            self.secondBackgroundImage.frame = CGRect(x: -800, y: -800, width: self.images[3]!.size.width, height: self.images[3]!.size.height)
+//            }
+//        UIView.animate(withDuration: 1, delay: 4, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.alpha = 0
+//            self.secondBackgroundImage.alpha = 1
+//        } completion: { _ in
+//            self.firstBackgroundImage = UIImageView(image: self.images[0])
+//            self.firstBackgroundImage.frame = CGRect(x: -400, y: -400, width: self.images[0]!.size.width, height: self.images[0]!.size.height)
+//            }
+//        UIView.animate(withDuration: 1, delay: 4, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.alpha = 1
+//            self.secondBackgroundImage.alpha = 0
+//        } completion: { _ in
+//            self.secondBackgroundImage = UIImageView(image: self.images[1])
+//            }
+//
+//        UIView.animate(withDuration: 8, delay: 8, options: [.curveEaseInOut]) {
+//            self.firstBackgroundImage.center.x -= 100
+//            self.firstBackgroundImage.center.y -= 100
+//            self.secondBackgroundImage.center.x += 100
+//            self.secondBackgroundImage.center.y += 100
+//        }
+//    }
+
 }
